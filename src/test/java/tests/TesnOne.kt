@@ -1,12 +1,10 @@
 package tests
 
 import constructor_classes.locatorsTypes
-import locators.AuthScreenLocators
-import locators.BottomBarLocators
-import locators.CatalogScreenLocators
-import locators.SplashScreenLocators
+import locators.*
 import main.TestMethods
 import org.openqa.selenium.WebDriverException
+import org.testng.AssertJUnit
 import org.testng.annotations.Test
 import java.util.concurrent.TimeUnit
 
@@ -74,18 +72,81 @@ class TestOne: TestMethods() {
         )
         println("переход в личный кабинет")
 
-        TimeUnit.SECONDS.sleep(2)
 
+        TimeUnit.SECONDS.sleep(3)
+
+        //нажимаем на карандашик
+        clickToElement(locatorType = locatorsTypes.Id,
+                locator = ProfileScreenLocators().buttonEditProfile.androidId
+        )
+        println("переход на экран редактирования данных пользователя")
+
+        TimeUnit.SECONDS.sleep(3)
+
+
+        //очищаем поле имени
+        clearField(locatorType = locatorsTypes.Id,
+        locator = ProfileScreenLocators().editTextFirstName.androidId
+        )
+        println("поле имени очистили")
+
+        //прокручиваем экран к низу
         swipeOnScreen(
                 startCordX = 500,
-                startCordY = 1200,
+                startCordY = 1300,
                 moveCordX = 500,
-                moveCordY = 800
+                moveCordY = 750
         )
 
-        TimeUnit.SECONDS.sleep(5)
-    }
+        //click save
+        clickToElement(locatorType = locatorsTypes.Id,
+        locator = ProfileScreenLocators().buttonSave.androidId)
 
+        //scroll top
+        swipeOnScreen(
+                startCordX = 500,
+                startCordY = 750,
+                moveCordX = 500,
+                moveCordY = 1300
+        )
+
+        //compare error text
+        try{
+            checkTextInElement(locatorType = locatorsTypes.xpath,
+                    locator = ProfileScreenLocators().emptyNameError.androidXpath,
+                    textToCompare = "Поле не может быть пустым!"
+            )
+            println("текст ошибки о пустом поле верный")
+        } catch (e: java.lang.AssertionError){
+            println("текст ошибки о пустом поле неверный, тест продолжается")
+        }
+
+
+        //scroll bottom
+        swipeOnScreen(
+                startCordX = 500,
+                startCordY = 1300,
+                moveCordX = 500,
+                moveCordY = 750
+        )
+
+        //нажимаем на кнопку разлогина
+        clickToElement(locatorType = locatorsTypes.Id,
+                locator = ProfileScreenLocators().buttonLogout.androidId
+        )
+        println("кнопка разлогина нажата")
+
+        TimeUnit.SECONDS.sleep(4)
+
+        AssertJUnit.assertTrue("Неуспешный разлогин",checkAvailableElement(locatorType = locatorsTypes.Id,
+                locator = EnterScreenLocators().buttonSignIn.androidId
+                ))
+        println("Успешный разлогин")
+
+        TimeUnit.SECONDS.sleep(2)
+
+
+    }
 
 
 }

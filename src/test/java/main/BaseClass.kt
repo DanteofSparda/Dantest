@@ -32,11 +32,11 @@ open class BaseClass {
         caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT,"7200")
         caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "ru.sportmaster.app.handh.dev")
         caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "ru.sportmaster.app.presentation.start.StartActivity")
-        caps.setCapability(MobileCapabilityType.APP, appPath.fullAppLocalPathAndroid)//"/Users/Dante/sportmaster-4.0.13.5605_dev_beta.apk")
+        caps.setCapability(MobileCapabilityType.APP, appPath.fullAppLocalPathAndroid)
         // caps.setCapability(MobileCapabilityType.UDID,"")
 
         driver = AndroidDriver(url,caps) // установка драйвера и приложения на Android device
-        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS)
+        driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS)
     }
 
     @AfterSuite
