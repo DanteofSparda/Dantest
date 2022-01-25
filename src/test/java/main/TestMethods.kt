@@ -11,7 +11,7 @@ import java.lang.RuntimeException
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
-open class TestMethods: BaseClass() {
+open class TestMethods {
 
     fun clickToElement(locatorType:String,locator:String){
 
@@ -89,5 +89,18 @@ open class TestMethods: BaseClass() {
             locatorsTypes.xpath -> element = driver.findElement(MobileBy.xpath(locator)).text
         }
         AssertJUnit.assertEquals("Строки не равны",textToCompare,element)
+    }
+
+    fun availableElement(locatorType: String,locator: String): Boolean {
+        var element : Boolean = false
+        try {
+            when(locatorType){
+                locatorsTypes.Id -> element = driver.findElement(MobileBy.id(locator)).isEnabled
+                locatorsTypes.xpath -> element = driver.findElement(MobileBy.xpath(locator)).isEnabled
+            }
+        } catch(e: org.openqa.selenium.NoSuchElementException){
+            element = false
+        }
+        return element
     }
 }

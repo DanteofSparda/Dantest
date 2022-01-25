@@ -14,4 +14,8 @@ class AuthScreenLocators {
     val pinCodeEditText = LocatorsConstructor(
             androidId = "ru.sportmaster.app.handh.dev:id/pinCodeEditText"
     )
+
+    val closeButtonAuth = LocatorsConstructor(
+        androidXpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.ImageButton"
+    )
 }

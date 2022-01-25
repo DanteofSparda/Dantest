@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite for Android">
+    <parameter name="paramPlatformName" value="Android"/>
+    <parameter name="paramPlatformVersion" value="11"/>
+    <parameter name="paramDeviceName" value="Pixel API 30"/>
+    <parameter name="paramUDID" value=""/>
+    <parameter name="paramTimeToDelay" value="6"/>
+    <test verbose="2" preserve-order="true" name="Android tests" parallel="none">
+        <classes>
+            <class name="tests.TestOne"/>
+        </classes>
+    </test>
+</suite>
