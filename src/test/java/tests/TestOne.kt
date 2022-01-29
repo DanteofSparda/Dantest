@@ -1,24 +1,26 @@
 package tests
 
-import constructor_classes.locatorsTypes
 import locators.*
 import main.BaseClass
-import main.GeneralTestFunctions
-import main.TestMethods
-import org.openqa.selenium.WebDriverException
-import org.testng.AssertJUnit
+import org.testng.annotations.Parameters
 import org.testng.annotations.Test
 import java.util.concurrent.TimeUnit
 
-class TestOne: BaseClass() {
+class TestOne : BaseClass() {
 
     @Test
-    fun testOne(){
+    @Parameters(
+        value = ["paramPlatformName"]
+    )
+    fun testOne(paramPlatformName: String) {
 
         //если пользователь разлогинен, то авторизуем его
-        if (generalTestFunctions.authUserDetect())
-        {
-            generalTestFunctions.authorization(phoneNumber="9999999901", smsNumber = "1111")
+        if (generalTestFunctions.authUserDetect(paramPlatformName)) {
+            generalTestFunctions.authorization(
+                phoneNumber = "9999999901",
+                smsNumber = "1111",
+                paramPlatformName = paramPlatformName
+            )
 
             /*тут нужно для начала на карандаш клацнуть
             //очищаем поле имени
@@ -65,12 +67,12 @@ class TestOne: BaseClass() {
             */
         } else {
 
-            generalTestFunctions.logout()
+            generalTestFunctions.logout(paramPlatformName)
 
-            }
-
-        TimeUnit.SECONDS.sleep(2)
         }
 
+        TimeUnit.SECONDS.sleep(2)
     }
+
+}
 

@@ -5,6 +5,7 @@ import io.appium.java_client.MobileBy
 import io.appium.java_client.MobileElement
 import io.appium.java_client.touch.WaitOptions
 import io.appium.java_client.touch.offset.PointOption
+import locators.LocatorType
 import org.testng.AssertJUnit
 import utils.PlatformTouchAction
 import java.lang.RuntimeException
@@ -13,37 +14,39 @@ import java.util.concurrent.TimeUnit
 
 open class TestMethods {
 
-    fun clickToElement(locatorType:String,locator:String){
-
+    fun clickToElement(locatorType:LocatorType,locator:String){
         lateinit var element: MobileElement
         when (locatorType){
-            locatorsTypes.Id -> element=driver.findElement(MobileBy.id(locator))
-            locatorsTypes.xpath -> element=driver.findElement(MobileBy.xpath(locator))
+            LocatorType.ID -> element=driver.findElement(MobileBy.id(locator))
+            LocatorType.XPATH -> element=driver.findElement(MobileBy.xpath(locator))
+            LocatorType.ACCESSIBILITY_ID -> element=driver.findElement(MobileBy.AccessibilityId(locator))
+            LocatorType.IOS_CLASS_CHAIN -> element=driver.findElement(MobileBy.iOSClassChain(locator))
         }
-
         element.click()
         TimeUnit.SECONDS.sleep(1)
     }
 
-    fun inputTextInField(locatorType:String,locator:String,inputText:String){
+    fun inputTextInField(locatorType:LocatorType,locator:String,inputText:String){
         lateinit var element: MobileElement
         when (locatorType){
-            locatorsTypes.Id -> element=driver.findElement(MobileBy.id(locator))
-            locatorsTypes.xpath -> element=driver.findElement(MobileBy.xpath(locator))
+            LocatorType.ID -> element=driver.findElement(MobileBy.id(locator))
+            LocatorType.XPATH -> element=driver.findElement(MobileBy.xpath(locator))
+            LocatorType.ACCESSIBILITY_ID -> element=driver.findElement(MobileBy.AccessibilityId(locator))
+            LocatorType.IOS_CLASS_CHAIN -> element=driver.findElement(MobileBy.iOSClassChain(locator))
         }
-
         element.sendKeys(inputText)
         TimeUnit.SECONDS.sleep(1)
 
     }
 
-    fun clearField(locatorType:String,locator:String){
+    fun clearField(locatorType:LocatorType,locator:String){
         lateinit var element: MobileElement
         when (locatorType){
-            locatorsTypes.Id -> element=driver.findElement(MobileBy.id(locator))
-            locatorsTypes.xpath -> element=driver.findElement(MobileBy.xpath(locator))
+            LocatorType.ID -> element=driver.findElement(MobileBy.id(locator))
+            LocatorType.XPATH -> element=driver.findElement(MobileBy.xpath(locator))
+            LocatorType.ACCESSIBILITY_ID -> element=driver.findElement(MobileBy.AccessibilityId(locator))
+            LocatorType.IOS_CLASS_CHAIN -> element=driver.findElement(MobileBy.iOSClassChain(locator))
         }
-
         element.clear()//очищение поля
         TimeUnit.SECONDS.sleep(1)
 
@@ -74,33 +77,37 @@ open class TestMethods {
     }
 
     // проверка доступности элемента на экране
-    fun checkAvailableElement (locatorType: String,locator: String): Boolean {
+    fun checkAvailableElement (locatorType: LocatorType,locator: String): Boolean {
         return when(locatorType) {
-            locatorsTypes.Id -> driver.findElement(MobileBy.id(locator)).isEnabled;
-            locatorsTypes.xpath -> driver.findElement(MobileBy.xpath(locator)).isEnabled;
+            LocatorType.ID -> driver.findElement(MobileBy.id(locator)).isEnabled;
+            LocatorType.XPATH -> driver.findElement(MobileBy.xpath(locator)).isEnabled;
+            LocatorType.ACCESSIBILITY_ID -> driver.findElement(MobileBy.AccessibilityId(locator)).isEnabled;
+            LocatorType.IOS_CLASS_CHAIN -> driver.findElement(MobileBy.iOSClassChain(locator)).isEnabled;
             else -> throw RuntimeException("некорректный тип локатора")
         }
     }
 
-    fun checkTextInElement(locatorType: String,locator: String,textToCompare:String = ""){
+    fun checkTextInElement(locatorType: LocatorType,locator: String,textToCompare:String = ""){
         lateinit var element: String
         when(locatorType){
-            locatorsTypes.Id -> element = driver.findElement(MobileBy.id(locator)).text
-            locatorsTypes.xpath -> element = driver.findElement(MobileBy.xpath(locator)).text
+            LocatorType.ID-> element = driver.findElement(MobileBy.id(locator)).text
+            LocatorType.XPATH -> element = driver.findElement(MobileBy.xpath(locator)).text
+            LocatorType.ACCESSIBILITY_ID -> element=driver.findElement(MobileBy.AccessibilityId(locator)).text
+            LocatorType.IOS_CLASS_CHAIN -> element=driver.findElement(MobileBy.iOSClassChain(locator)).text
         }
         AssertJUnit.assertEquals("Строки не равны",textToCompare,element)
     }
 
-    fun availableElement(locatorType: String,locator: String): Boolean {
-        var element : Boolean = false
+    fun availableElement(locatorType: LocatorType,locator: String): Boolean {
         try {
-            when(locatorType){
-                locatorsTypes.Id -> element = driver.findElement(MobileBy.id(locator)).isEnabled
-                locatorsTypes.xpath -> element = driver.findElement(MobileBy.xpath(locator)).isEnabled
+            return when(locatorType){
+                LocatorType.ID -> driver.findElement(MobileBy.id(locator)).isEnabled
+                LocatorType.XPATH -> driver.findElement(MobileBy.xpath(locator)).isEnabled
+                LocatorType.ACCESSIBILITY_ID -> driver.findElement(MobileBy.AccessibilityId(locator)).isEnabled
+                LocatorType.IOS_CLASS_CHAIN -> driver.findElement(MobileBy.iOSClassChain(locator)).isEnabled
             }
         } catch(e: org.openqa.selenium.NoSuchElementException){
-            element = false
+            return false
         }
-        return element
     }
 }
